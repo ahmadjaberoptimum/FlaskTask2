@@ -6,16 +6,19 @@ class Library(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
-
+    user_id = db.Column(db.Integer , db.ForeignKey("users.id") , nullable = False , unique = True)
     books = db.relationship(
         "Book",
         backref="library",
         cascade="all, delete-orphan",
         lazy=True
     )
-
+    user = db.relationship(
+        "User",
+        back_populates = "library"
+    )
     def to_dict(self):
-        return {"id": self.id, "name": self.name}
+        return {"id": self.id, "name": self.name , "userID" : self.user_id}
 
 
 class Book(db.Model):
@@ -36,4 +39,24 @@ class Book(db.Model):
             "author": self.author,
             "library_id": self.library_id,
             "created_at": self.created_at.isoformat()
+        }
+
+
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer , primary_key = True)
+    name = db.Column(db.String(20) , nullable= False)
+    email = db.Column(db.String(50) , nullable = True)
+    
+    library = db.relationship(
+        "Library",
+        back_populates = "user",
+        uselist = False
+    )
+
+    def to_dict(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            "email" : self.email
         }
