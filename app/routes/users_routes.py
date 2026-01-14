@@ -64,8 +64,8 @@ def delete_user(user_id):
         return jsonify({"error" : str(e)}) , HTTP_404_NOT_FOUND
 
 
-@users_bp.get("/<int:user_id>/book-count")
-def number_of_books(user_id):
+@users_bp.get("/<int:user_id>/book_count")
+def number_of_books_routes(user_id):
     try:
         count = number_of_books(user_id)
         return jsonify({"user_id": user_id, "book_count": count}), HTTP_200_OK
