@@ -55,7 +55,7 @@ def test_update_library_no_name_key_keeps_same(app):
     with app.app_context():
         u = make_user("LU", "lu@test.com")
         lib = make_library(u.id, "Old")
-        updated = update_library(lib.id, {})  # يغطي branch اللي ما فيه name
+        updated = update_library(lib.id, {})  
         assert updated.name == "Old"
 
 def test_delete_library_success(app):
